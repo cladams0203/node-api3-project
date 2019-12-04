@@ -1,13 +1,17 @@
 const express = require('express');
-const userDb = require('./users/userDb')
+const userRouter = require('./users/userRouter')
 
 const server = express();
 
+server.use(express.json())
+
 server.use(logger)
 
-server.get('/:id',validateUserId, (req, res) => {
+server.use('/api/users', userRouter)
 
-})
+
+
+
 
 server.get('/', (req, res) => {
   res.send(`<h2>Let's write some middleware!</h2>`);
@@ -20,10 +24,6 @@ function logger(req, res, next) {
   
   next()
 }
-function validateUserId(req, res, next) {
-  userDb.getById(req.params.id)
-    .then(user => console.log(user))
-  next();
-}
 
-module.exports = server, validateUserId;
+
+module.exports = server;
